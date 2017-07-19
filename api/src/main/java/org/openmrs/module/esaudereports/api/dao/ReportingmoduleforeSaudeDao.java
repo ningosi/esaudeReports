@@ -9,29 +9,25 @@
  */
 package org.openmrs.module.esaudereports.api.dao;
 
-import org.hibernate.criterion.Restrictions;
-import org.openmrs.api.db.hibernate.DbSession;
-import org.openmrs.api.db.hibernate.DbSessionFactory;
-import org.openmrs.module.esaudereports.Item;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository("esaudereports.ReportingmoduleforeSaudeDao")
 public class ReportingmoduleforeSaudeDao {
 	
-	@Autowired
-	DbSessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
-	private DbSession getSession() {
-		return sessionFactory.getCurrentSession();
+	/**
+	 * @param sessionFactory the sessionFactory to set
+	 */
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 	
-	public Item getItemByUuid(String uuid) {
-		return (Item) getSession().createCriteria(Item.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
-	}
-	
-	public Item saveItem(Item item) {
-		getSession().saveOrUpdate(item);
-		return item;
+	/**
+	 * @return the sessionFactory
+	 */
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 }

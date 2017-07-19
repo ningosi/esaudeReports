@@ -20,10 +20,12 @@ import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
 import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by Nicholas Ingosi on 7/19/17. A smaple register listing vaious patient information
  */
+@Component
 public class SetupSampleRegisterReport extends EsaudeDataExportManager {
 	
 	/**

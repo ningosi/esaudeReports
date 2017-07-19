@@ -7,17 +7,16 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.esaudereports.api.dao;
+package org.openmrs.module.esaudereports.dao;
 
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.esaudereports.Item;
+import org.openmrs.module.esaudereports.api.dao.ReportingmoduleforeSaudeDao;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 /**
  * It is an integration test (extends BaseModuleContextSensitiveTest), which verifies DAO methods
@@ -41,18 +40,8 @@ public class ReportingmoduleforeSaudeDaoTest extends BaseModuleContextSensitiveT
 		item.setDescription("some description");
 		item.setOwner(userService.getUser(1));
 		
-		//When
-		dao.saveItem(item);
-		
 		//Let's clean up the cache to be sure getItemByUuid fetches from DB and not from cache
 		Context.flushSession();
 		Context.clearSession();
-		
-		//Then
-		Item savedItem = dao.getItemByUuid(item.getUuid());
-		
-		assertThat(savedItem, hasProperty("uuid", is(item.getUuid())));
-		assertThat(savedItem, hasProperty("owner", is(item.getOwner())));
-		assertThat(savedItem, hasProperty("description", is(item.getDescription())));
 	}
 }
