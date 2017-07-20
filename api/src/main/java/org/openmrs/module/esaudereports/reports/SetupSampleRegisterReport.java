@@ -14,6 +14,9 @@
 package org.openmrs.module.esaudereports.reports;
 
 import org.openmrs.module.esaudereports.EsaudeDataExportManager;
+import org.openmrs.module.esaudereports.reporting.data.converter.GenderConverter;
+import org.openmrs.module.reporting.data.person.definition.AgeDataDefinition;
+import org.openmrs.module.reporting.data.person.definition.GenderDataDefinition;
 import org.openmrs.module.reporting.data.person.definition.PreferredNameDataDefinition;
 import org.openmrs.module.reporting.dataset.definition.DataSetDefinition;
 import org.openmrs.module.reporting.dataset.definition.PatientDataSetDefinition;
@@ -21,6 +24,10 @@ import org.openmrs.module.reporting.evaluation.parameter.Mapped;
 import org.openmrs.module.reporting.report.ReportDesign;
 import org.openmrs.module.reporting.report.definition.ReportDefinition;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by Nicholas Ingosi on 7/19/17. A smaple register listing vaious patient information
@@ -36,6 +43,13 @@ public class SetupSampleRegisterReport extends EsaudeDataExportManager {
 		return "cc0fa186-6c83-11e7-9fd6-507b9dc4c741";
 	}
 	
+	@Override
+	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
+		List<ReportDesign> l = new ArrayList<ReportDesign>();
+		l.add(buildReportDesign(reportDefinition));
+		return l;
+	}
+	
 	/**
 	 * Build the report design for the specified report, this allows a user to override the report
 	 * design by adding properties and other metadata to the report design
@@ -45,7 +59,12 @@ public class SetupSampleRegisterReport extends EsaudeDataExportManager {
 	 */
 	@Override
 	public ReportDesign buildReportDesign(ReportDefinition reportDefinition) {
-		return null;
+		ReportDesign rd = createExcelTemplateDesign(getExcelDesignUuid(), reportDefinition, "sampleRegister.xls");
+		Properties props = new Properties();
+		props.put("repeatingSections", "sheet:1,row:4,dataset:S");
+		props.put("sortWeight", "5000");
+		rd.setProperties(props);
+		return rd;
 	}
 	
 	@Override
@@ -55,7 +74,7 @@ public class SetupSampleRegisterReport extends EsaudeDataExportManager {
 	
 	@Override
 	public String getName() {
-		return "Sample Report";
+		return "Sample Register Report";
 	}
 	
 	@Override
@@ -71,7 +90,7 @@ public class SetupSampleRegisterReport extends EsaudeDataExportManager {
 		rd.setName(getName());
 		rd.setDescription(getDescription());
 		rd.addParameters(getParameters());
-		rd.addDataSetDefinition("Sample", Mapped.mapStraightThrough(dataSetDefinition()));
+		rd.addDataSetDefinition("S", Mapped.mapStraightThrough(dataSetDefinition()));
 		return rd;
 	}
 	
@@ -82,8 +101,11 @@ public class SetupSampleRegisterReport extends EsaudeDataExportManager {
 	
 	private DataSetDefinition dataSetDefinition() {
 		PatientDataSetDefinition dsd = new PatientDataSetDefinition();
+		dsd.setName("S");
 		dsd.addColumn("Patient Names", new PreferredNameDataDefinition(), (String) null);
-		//add more colums here as required
+		dsd.addColumn("Gender", new GenderDataDefinition(), "", new GenderConverter());
+		dsd.addColumn("Age", new AgeDataDefinition(), "");
+		//more columns could be added here
 		return dsd;
 	}
 }

@@ -13,25 +13,38 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.BaseModuleActivator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class contains the logic that is run every time this module is either started or shutdown
  */
-public class ReportingmoduleforeSaudeActivator extends BaseModuleActivator {
+public class ESaudeReportsActivator extends BaseModuleActivator {
 	
 	private Log log = LogFactory.getLog(this.getClass());
+	
+	public List<Initializer> getInitializers() {
+		List<Initializer> l = new ArrayList<Initializer>();
+		l.add(new EsaudeReportInitializer());
+		return l;
+	}
 	
 	/**
 	 * @see #started()
 	 */
 	public void started() {
-		log.info("Started Reporting module for eSaude");
+		log.info("eSaude Reports module started - initializing...");
+		for (Initializer initializer : getInitializers()) {
+			initializer.started();
+		}
 	}
 	
-	/**
-	 * @see #shutdown()
-	 */
-	public void shutdown() {
-		log.info("Shutdown Reporting module for eSaude");
+	@Override
+	public void stopped() {
+		for (int i = getInitializers().size() - 1; i >= 0; i--) {
+			getInitializers().get(i).stopped();
+		}
+		log.info("eSaude Reports module stopped");
 	}
 	
 }

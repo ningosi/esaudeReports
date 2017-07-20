@@ -33,25 +33,23 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.xls</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.xls</include>
+				</includes>
 			</resource>
 		</resources>
 
 		<testResources>
 			<testResource>
 				<directory>src/test/resources</directory>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.xml</include>
-				</includes>
 				<filtering>true</filtering>
-			</testResource>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<excludes>
-					<exclude>**/*.properties</exclude>
-					<exclude>**/*.xml</exclude>
-				</excludes>
-				<filtering>false</filtering>
 			</testResource>
 		</testResources>
 	</build>

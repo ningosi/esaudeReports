@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * Contains module's config.
  */
 @Component("esaudereports.ReportingmoduleforeSaudeConfig")
-public class ReportingmoduleforeSaudeConfig {
+public class ESaudeReportsConfig {
 	
 	public final static String MODULE_PRIVILEGE = "Reporting module for eSaude Privilege";
 }
