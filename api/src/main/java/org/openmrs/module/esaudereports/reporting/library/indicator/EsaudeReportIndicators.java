@@ -38,4 +38,20 @@ public class EsaudeReportIndicators {
 		return cohortIndicator("all patients",
 		    map(cohortLibrary.allPatients(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
 	}
+	
+	/**
+	 * All male as a fraction of all patients
+	 */
+	public CohortIndicator allMalesVsAllPatients() {
+		return cohortIndicator("male over all patients", map(cohortLibrary.males(), ""),
+		    map(cohortLibrary.allPatients(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+	}
+	
+	/**
+	 * All male as a fraction of all patients
+	 */
+	public CohortIndicator allFemalseVsAllPatients() {
+		return cohortIndicator("male over all patients", map(cohortLibrary.females(), ""),
+		    map(cohortLibrary.allPatients(), "onOrAfter=${startDate},onOrBefore=${endDate}"));
+	}
 }
