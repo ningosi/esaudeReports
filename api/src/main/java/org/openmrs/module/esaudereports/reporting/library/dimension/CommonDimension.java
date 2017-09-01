@@ -47,4 +47,32 @@ public class CommonDimension {
 		return dim;
 	}
 	
+	/**
+	 * Dimensions of age for children and adults for quality improvement report
+	 * 
+	 * @return CohortDefinitionDimension
+	 */
+	public CohortDefinitionDimension dimForQualityImprovement() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("age groups (0-14, 15+)");
+		dim.addParameter(new Parameter("onDate", "Date", Date.class));
+		dim.addCohortDefinition("0-14", map(commonLibrary.agedAtMost(14), "effectiveDate=${onDate}"));
+		dim.addCohortDefinition("15+", map(commonLibrary.agedAtLeast(15), "effectiveDate=${onDate}"));
+		return dim;
+	}
+	
+	/**
+	 * Dimension of pregnant women
+	 * 
+	 * @return CohortDefinitionDimension
+	 */
+	/*public CohortDefinitionDimension pregnant() {
+		CohortDefinitionDimension dim = new CohortDefinitionDimension();
+		dim.setName("Pregnant Women");
+		dim.addParameter(new Parameter("OnOrAfter", "After Date", Date.class));
+		dim.addParameter(new Parameter("OnOrBefore", "Before Date", Date.class));
+		dim.addCohortDefinition("P", map(commonLibrary.pregnant(), "onOrAfter=${onOrAfter},onOrBefore=${onOrBefore}"));
+		return dim;
+	}*/
+	
 }
